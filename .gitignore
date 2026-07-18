@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Generated experiment outputs
+results/csv/*
+results/figures/*
+
+# Keep folder structure
+!results/csv/.gitkeep
+!results/figures/.gitkeep
+
+# Processed data
+data/processed/*
+!data/processed/.gitkeep
