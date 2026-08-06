@@ -3,40 +3,39 @@ import math
 def recommend(userId: int, ratingsData: list, n: int = 10) -> list[int]:
     movieTotals = {}  
     movieCounts = {}  
-    seenMovies = []   
+    seenMovieIds = []   
     
     for record in ratingsData:
-        currentMovie = record['movie_id']
-        currentUser = record['user_id']
+        currentMovieId = record['movie_id']
+        currentUserId = record['user_id']
         currentRating = record['rating']
         
-        if currentUser == userId:
-            seenMovies.append(currentMovie)
+        if currentUserId == userId:
+            seenMovieIds.append(currentMovieId)
             
-        if currentMovie not in movieCounts:
-            movieTotals[currentMovie] = 0
-            movieCounts[currentMovie] = 0
+        if currentMovieId not in movieCounts:
+            movieTotals[currentMovieId] = 0
+            movieCounts[currentMovieId] = 0
             
             
-        movieTotals[currentMovie] = movieTotals[currentMovie] + currentRating
-        movieCounts[currentMovie] = movieCounts[currentMovie] + 1
+        movieTotals[currentMovieId] = movieTotals[currentMovieId] + currentRating
+        movieCounts[currentMovieId] = movieCounts[currentMovieId] + 1
         
     movieScores = [] 
     
-    for movie in movieCounts:
-        if movie in seenMovies:
+    for movieId in movieCounts:
+        if movieId in seenMovieIds:
             continue
-            
-        averageRating = movieTotals[movie] / movieCounts[movie]
-        score = averageRating * math.log(movieCounts[movie])
+        averageRating = movieTotals[movieId] / movieCounts[movieId]
+        score = averageRating * math.log(movieCounts[movieId])
         
-        movieScores.append((score, movie))
+        movieScores.append((score, movieId))
         
     movieScores.sort(reverse=True)
     
-    topMovies = []
+    topMovieIds = []
     
     for i in range(min(n, len(movieScores))):
-        topMovies.append(movieScores[i][1])
+        topMovieIds.append(movieScores[i][1])
         
-    return topMovies
+    return topMovieIds
