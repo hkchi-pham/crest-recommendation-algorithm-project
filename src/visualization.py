@@ -6,15 +6,22 @@ import os
 os.makedirs("results/figures", exist_ok=True)
 
 
-def plot_diversity(metrics): # metrics is expected to be a dataframe
+def plot_diversity(metrics): # Average diversity across users for each round and algorithm over time
+    data = (
+        metrics
+        .groupby(["round", "algorithm"])["genre_diversity"]
+        .mean()
+        .reset_index()
+    )
+
     plt.figure(figsize=(10, 6))
 
-    for algorithm in metrics["algorithm"].unique():
-        data = metrics[metrics["algorithm"] == algorithm]
+    for algorithm in data["algorithm"].unique():
+        algorithm_data = data[data["algorithm"] == algorithm]
 
         plt.plot(
-            data["round"],
-            data["genre_diversity"],
+            algorithm_data["round"],
+            algorithm_data["genre_diversity"],
             label=algorithm
         )
 
@@ -28,15 +35,22 @@ def plot_diversity(metrics): # metrics is expected to be a dataframe
     plt.close()
 
 
-def plot_coverage(metrics):
+def plot_coverage(metrics): # Average coverage across users for each round and algorithm
+    data = (
+        metrics
+        .groupby(["round", "algorithm"])["genre_coverage"]
+        .mean()
+        .reset_index()
+    )
+
     plt.figure(figsize=(10, 6))
 
-    for algorithm in metrics["algorithm"].unique():
-        data = metrics[metrics["algorithm"] == algorithm]
+    for algorithm in data["algorithm"].unique():
+        algorithm_data = data[data["algorithm"] == algorithm]
 
         plt.plot(
-            data["round"],
-            data["genre_coverage"],
+            algorithm_data["round"],
+            algorithm_data["genre_coverage"],
             label=algorithm
         )
 
@@ -50,15 +64,22 @@ def plot_coverage(metrics):
     plt.close()
 
 
-def plot_entropy(metrics):
+def plot_entropy(metrics): # Average entropy across users for each round and algorithm
+    data = (
+        metrics
+        .groupby(["round", "algorithm"])["shannon_entropy"]
+        .mean()
+        .reset_index()
+    )
+
     plt.figure(figsize=(10, 6))
 
-    for algorithm in metrics["algorithm"].unique():
-        data = metrics[metrics["algorithm"] == algorithm]
+    for algorithm in data["algorithm"].unique():
+        algorithm_data = data[data["algorithm"] == algorithm]
 
         plt.plot(
-            data["round"],
-            data["shannon_entropy"],
+            algorithm_data["round"],
+            algorithm_data["shannon_entropy"],
             label=algorithm
         )
 
@@ -72,12 +93,21 @@ def plot_entropy(metrics):
     plt.close()
 
 
-def plot_final_comparison(metrics):
+def plot_final_comparison(metrics): # Get the final round, Average final metrics across users
     final_round = metrics["round"].max()
+
     final_data = metrics[metrics["round"] == final_round]
 
-    algorithms = final_data["algorithm"]
+    final_data = (
+        final_data
+        .groupby("algorithm")[
+            ["genre_diversity", "genre_coverage", "shannon_entropy"]
+        ]
+        .mean()
+        .reset_index()
+    )
 
+    algorithms = final_data["algorithm"]
     x = range(len(algorithms))
     width = 0.25
 
