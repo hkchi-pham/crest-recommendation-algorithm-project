@@ -1,3 +1,5 @@
+import random
+
 class Simulation:
     def __init__(self, recommender, user_id):
         self.recommender = recommender
