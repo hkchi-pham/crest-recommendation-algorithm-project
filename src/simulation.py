@@ -38,3 +38,9 @@ class Simulation:
             self.record_interaction(recommendations, clicks) # record interactions
             return self.interaction
         
+# To run in another file:
+# from simulation import Simulation
+# import popularity
+# user_id = 0
+# simul1 = Simulation(recommender=popularity.recommend, user_id=user_id, ratings_data=ratings_df.to_dict("records"))
+# simul1.run(30)
