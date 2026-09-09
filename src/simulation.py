@@ -1,15 +1,15 @@
 import random
 
 class Simulation:
-    def __init__(self, recommender, user_id, ratings_data):
+    def __init__(self, recommender, user_id, recommender_data): # Each algorithm has diff parameters (given in tuples/lists as recommender_data)
         self.recommender = recommender
         self.user_id = user_id
-        self.ratings_data = ratings_data
+        self.recommender_data = recommender_data
         self.interaction = []
         self.recommended_history = []
         self.round_num = 0
     def generate_recs(self): # generate recs for current user
-        rcm = self.recommender(self.user_id, self.ratings_data, n=10)
+        rcm = self.recommender(self.user_id, *self.recommender_data, n=10) # *selfrec 
         return rcm
     def simulate_clicks(self, recommendations): # Position-Based Model
         clicks = []
@@ -42,5 +42,5 @@ class Simulation:
 # from simulation import Simulation
 # import popularity
 # user_id = 0
-# simul1 = Simulation(recommender=popularity.recommend, user_id=user_id, ratings_data=ratings_df.to_dict("records"))
-# simul1.run(30)
+# simul1 = Simulation(recommender=popularity.recommend, user_id=user_id, recommender_data=ratings_df.to_dict("records"))
+# results = simul1.run(30)
