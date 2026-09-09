@@ -1,9 +1,10 @@
 import random
 
 class Simulation:
-    def __init__(self, recommender, user_id):
+    def __init__(self, recommender, user_id, ratings_data):
         self.recommender = recommender
         self.user_id = user_id
+        self.ratings_data = ratings_data
         self.interaction = []
         self.recommended_history = []
         self.round_num = 0
