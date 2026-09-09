@@ -26,5 +26,4 @@
 - Create line chart to show genre diversity over 30 rounds
 - Create line chart to show genre coverage over 30 rounds
 - Create line chart to show Shannon entropy over 30 rounds
-- Create a bar chart comparing final average results of each recommendation algorithm
 - Save all generated figures in results/figures
