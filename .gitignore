@@ -18,12 +18,12 @@ env/
 .DS_Store
 
 # Generated experiment outputs
+# CSVs stay out of the repo: they are large and regenerable with
+# `python main.py` (fixed seed 42). Figures ARE tracked - they go in the paper.
 results/csv/*
-results/figures/*
 
 # Keep folder structure
 !results/csv/.gitkeep
-!results/figures/.gitkeep
 
 # Processed data
 data/processed/*
