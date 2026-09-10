@@ -27,14 +27,26 @@ def recommend(
     userProfiles: dict[int, list[float]],
     movieProfiles: dict[int, list[float]],
     n: int = 10,
+    excludeMovieIds: set[int] | None = None,
 ) -> list[int]:
+    """Recommend the n movies whose genre vector best matches the user's.
+
+    excludeMovieIds: movies the user has already seen. Popularity and
+    collaborative both skip seen movies, so content-based must too, otherwise
+    the three arms are not comparable.
+    """
     if userId not in userProfiles:
         return []
+
+    excludeMovieIds = excludeMovieIds or set()
 
     currentUserVector = userProfiles[userId]
     movieScores = []
 
     for movieId, currentMovieVector in movieProfiles.items():
+        if movieId in excludeMovieIds:
+            continue
+
         similarityScore = cosine_similarity(currentUserVector, currentMovieVector)
         movieScores.append((similarityScore, movieId))
 
